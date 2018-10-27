@@ -2,6 +2,7 @@ module DifAutom
 
 #Definición del tipo Dual.
 # *Nota*: Se cambió el nombre del campo "diferencial" a algo que pueda escribir de manera más sencilla, de `  x′ ` a ` x´ ` (el apóstrofe usado).
+
 """
         Dual
 
