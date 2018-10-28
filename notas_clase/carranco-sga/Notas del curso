@@ -1,0 +1,241 @@
+# Notas del curso de sistemas dinámicos.
+
+___
+
+## 2018-08-13
+* Revisar la ortografía y gramática: codificación permite acentos.
+
+* Necesidad de usar git: el curso se va a basar en este [repositorio](https://github.com/lbenet/TSFisComp1). La presentación del curso está en [este link](http://www.fciencias.unam.mx/docencia/horarios/detalles/295982).
+
+* Para poder realizar la tarea:
+
+    * Se suben notas, en estas notas va a a haber un ejercicio (tarea).
+
+    * Se crea una nueva rama en la que se realiza el ejercicio.
+
+    * Se abre un pull request para subir las respuestas. Se discute el cambio y se ve si se acepta. (Refereo)
+
+    * Hacerlo en español.
+
+    * Usar el siguiente formato para el repositorio: `nombre/tarea_número`. (Convención)
+
+    * Existen dos fechas límite distintas para las tareas:
+
+        * La fecha límite inicial: Última fecha para realizar el pull request.
+
+        * La fecha límite final: Última fecha para entregar la tarea terminada.
+
+* Pendientes:
+
+    * **TODO**: Agregar extensiones para revisar ortografía y gramática.
+
+    * **Tarea 0**: Agregar mensaje en issue adecuado para dar el nombre de usuario.
+
+    * **Tarea 0.1** En esta [liga](https://learngitbranching.js.org/), resolver "A mixed bag" (ej. 4) y "Advanced topics" (ej. 2). Tomar captura de pantalla de los niveles en dónde aparezcan completados. _**Para el 2018-08-17**_.
+
+* Notas de Julia:
+
+    * Comentario sobre tipos.
+
+    * Para ver el valor completo de un flotante, usar big().
+
+    * Comentario sobre vectores y matrices: arreglo.
+
+    * Comentario sobre broadcasting. (Uso de un punto para aplicar una operación de un elemento a todos los elementos de un arreglo.)
+
+    * Comentario sobre variables y su scope.
+
+    * Comparación entre arrays y tuples: los arreglos se pueden cambiar, las tuplas, no.
+
+    * Uso de end para los rangos.
+
+    * Compración entre operadores lógicos normales y de cortocircuito: & y | revisan ambos argumentos, mientras que && y || sólo revisan uno en caso de poder.
+
+    * If abreviado mediante and con cortocircuito:
+
+        ```julia
+        for i in 1:10
+            if x == 6
+                print(i, ".")
+            end
+        end
+        ```
+
+        Es equivalente a:
+
+        ```julia
+        for i in 1:10
+            x == 6 && print(i, ".")
+        end
+        ```
+
+        Para la negación de lo anterior, cambiar && por ||.
+
+    * Comentar funciones usando markdown de la siguiente manera:
+
+        ```julia
+        """
+            muestra(x)
+
+        Muestra en pantalla el valor de `x` ( `x = ...`) y regresa el valor de `x`.
+        """
+
+        function ...
+
+        ```
+___
+
+## 2018-08-20
+
+* Más notas sobre Julia.
+
+    * Rangos para eficientar colecciones iterables en memoria.
+
+    * Comentario sobre linspace para generar colecciones iterables más eficientes en memoria.
+
+    * Uso de `methods` para ver los métodos de una función.
+
+    * Comprenhensions para formar vectores
+
+        ```julia
+
+        [i^2 for i = 0.5]
+
+        ```
+
+    * Fracciones `1//10` no tiene la misma estructura en memoria que `0.1`.
+
+        Obs:
+
+         ```julia
+
+         In[] = 1//10 < 0.1
+
+         Out = true[]
+
+         ```
+
+         Esto es por la representación en memoria (base 2) de 0.1: no conmensurables.
+
+    * Comentario sobre and y or cortocircuitados.
+
+    * Trucos con and y or cortocircuitados.
+
+    ```julia
+
+        for i in 1:6
+
+            (i % 3) == 0 | println(i) #Si i es divisible por 3 NO se imprime.
+            (i % 3) == 0 | println(i) #Si i es divisible por 3 SÍ se imprime.
+
+        end
+    ```
+
+    * Estructura de if: `if`, `elseif` y `else`.
+
+    * El entorno dentro del `if` es el mismo que afuera. El entorno dentro del `for` es diferente al de afuera.
+
+    * Condicionales cortos:
+
+    ```julia
+        *condición* == ? a : b
+
+        #Es equivalente a
+
+        if *condición*
+
+            a
+
+        else
+
+            b
+
+        end
+    ```
+
+    * Comentarios sobre funciones:
+
+        * `return` no es obligatorio, pero es útil en condicionales.
+
+        * Estabilidad de tipo, *duck typing*:
+
+            ```julia
+
+                sqrt(-1)
+
+            ```
+        * Elevar al cuadrado una cadena es concatenarla.
+
+        * Power by squaring: $x^5 = x \cdot x^4 = x \cdot (x^2)^2$.
+
+        * Definiciones cortas para funciones: una sola línea.
+
+        * Funciones anónimas.
+
+        * Métodos: `methods`.
+
+            * Declaración del tipo de una función en los argumentos usando `:Type`.
+
+        * *Broadcasting*: usar un punto entre el nombre de la función y los argumentos.
+
+        * Acceso a elementos de una matriz: el índice avanza sobre columna.
+
+            ```julia
+
+                A = [1 3 5; 2 4 6]
+
+                A[1, 2] = 3
+
+                A[3] = 3
+            ```
+
+        * Broadcasting vectoriza las funciones, pero no es la forma más eficiente de hacerlo en general.
+
+        * Julia mejora el tiempo de ejecución al definir métodos más específicos para ciertos tipos. (*Multiple dispatch*)
+
+        * Convenciones sobre funciones que alteran los parámetros:
+
+            * Uso de signo de exclamación al final del nombre de la función. `h!`
+
+            * Los argumentos que se cambian, de preferencia al inicio de lo que se escribe.
+
+            * Variables como `x` no son mutables.
+
+        * Conviene definir funciones que sean "estables de tipo": son más rápidas.
+
+            * Macro: `@codewarntype` para hacer debugging de estabilidad de tipo.
+
+        * Paquetes:
+
+            * En Julia 0.7 es necesario usar:
+
+                ```julia
+                    using Pkg
+                    Pkg.add("Primes")
+                ```
+
+            * Algunos paquetes útiles:
+
+                * `"Primes"`: funciones para primos.
+
+                * `"Plots"`: para graficar.
+
+                    * Opción: `legend = :topleft`: para cambiar la leyenda en la esquina superior izquierda.
+
+                    * Backends:
+
+                        * `gr()`: rápido.
+                        * `pyplot()`: de `matplotlib`; lento.
+                        * `plotly()`: gráficas interactivas, más o menos rápido.
+
+                    * ***Títulos en las gráficas***.
+
+* **Tarea 1**: *Método de Newton*
+
+    * Construcción:
+
+        * Considerar $f(x)$ y tomar un punto $x_0$. Considerar la tangente al punto $(x_0, f(x_0))$. Buscar la intersección de la tangente con el eje $X$. Finalmente, iterar el punto obtenido en la función.
+
+        * Agregar docstrings con ejemplo.
+
+* Revisar Google's summer of code.
